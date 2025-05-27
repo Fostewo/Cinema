@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{ film.title }}</h2>
+            <p><strong>Жанр:</strong> {{ film.genre }}</p>
+            <p><strong>Дата показа:</strong> {{ film.release_date.strftime('%d.%m.%Y') }}</p>
+            <p><strong>Рейтинг:</strong> {{ film.rating }}</p>
+
+            <div class="ratio ratio-16x9 mb-4">
+                <iframe src="{{ film.trailer_url.replace('watch?v=', 'embed/') }}"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Кинотеатры</h4>
+            <div id="map" style="width: 100%; height: 300px;"></div>
+        </div>
+    </div>
+
+    {% if current_user.is_admin and film.release_date < today %}
+    <div class="mt-4">
+        <a href="{{ url_for('edit_film', film_id=film.id) }}" class="btn btn-warning">Редактировать</a>
+        <form method="POST" action="{{ url_for('delete_film', film_id=film.id) }}" style="display: inline;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены?')">Удалить</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU" type="text/javascript"></script>
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [55.76, 37.64],
+            zoom: 10
+        });
+
+        var theaters = JSON.parse('{{ film.theaters|safe }}');
+
+        theaters.forEach(function(theater) {
+            var placemark = new ymaps.Placemark([theater.lat, theater.lon], {
+                hintContent: theater.name,
+                balloonContent: theater.name
+            });
+            myMap.geoObjects.add(placemark);
+        });
+
+        if (theaters.length > 0) {
+            myMap.setBounds(myMap.geoObjects.getBounds());
+        }
+    }
+</script>
+{% endblock %}

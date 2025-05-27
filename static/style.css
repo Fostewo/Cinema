@@ -1,0 +1,26 @@
+body {
+    padding-top: 20px;
+    background-color: #f8f9fa;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.map-container {
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+.film-poster {
+    max-height: 400px;
+    object-fit: cover;
+}

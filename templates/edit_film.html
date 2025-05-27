@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Редактировать фильм</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">Название</label>
+            <input type="text" class="form-control" name="title" value="{{ film.title }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Жанр</label>
+            <input type="text" class="form-control" name="genre" value="{{ film.genre }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Дата показа</label>
+            <input type="date" class="form-control" name="release_date"
+                   value="{{ film.release_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Рейтинг</label>
+            <input type="number" step="0.1" min="0" max="10" class="form-control" name="rating"
+                   value="{{ film.rating }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ссылка на трейлер (YouTube)</label>
+            <input type="url" class="form-control" name="trailer_url" value="{{ film.trailer_url }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Кинотеатры (JSON)</label>
+            <textarea class="form-control" name="theaters" rows="5" required>{{ film.theaters }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{{ url_for('film_detail', film_id=film.id) }}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
