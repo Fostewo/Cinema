@@ -9,3 +9,17 @@
 - Панель администратора для управления фильмами
 - REST API для работы с фильмами и пользователями
 - Интеграция с Яндекс.Картами для отображения кинотеатров
+
+## Требования
+
+Flask==2.3.2
+Flask-Login==0.6.2
+SQLAlchemy==2.0.19
+sqlalchemy-serializer==1.4.1
+werkzeug==2.3.7
+python-dotenv==1.0.0
+flask-sqlalchemy==3.0.5
+
+### Установка требований
+
+pip install -r requirements.txt
